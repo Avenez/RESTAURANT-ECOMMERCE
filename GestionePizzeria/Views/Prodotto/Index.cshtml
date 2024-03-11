@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GestionePizzeria.Models.Prodotto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Prodotto")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Foto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prezzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TempoConsegna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ingredienti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pranzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cena)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            <img src="@item.Foto" alt="Foto Prodotto" class="img-thumbnail" style="width:100px" />
+            @*@Html.DisplayFor(modelItem => item.Foto)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prezzo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TempoConsegna)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ingredienti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pranzo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cena)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idProdotto }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idProdotto }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idProdotto })
+        </td>
+    </tr>
+}
+
+</table>

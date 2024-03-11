@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GestionePizzeria.Models.Ordine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Utente.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataOridine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Importo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IndirizzoConsegna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Evaso)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Utente.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataOridine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Importo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IndirizzoConsegna)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Evaso)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idOrdine }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idOrdine }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idOrdine })
+        </td>
+    </tr>
+}
+
+</table>

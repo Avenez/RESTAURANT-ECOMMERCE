@@ -1,0 +1,45 @@
+﻿@model IEnumerable<GestionePizzeria.Models.DettaglioOrdine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ordine.IndirizzoConsegna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prodotto.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ordine.IndirizzoConsegna)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prodotto.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qta)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idDettaglioOrdine }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idDettaglioOrdine }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idDettaglioOrdine })
+        </td>
+    </tr>
+}
+
+</table>
