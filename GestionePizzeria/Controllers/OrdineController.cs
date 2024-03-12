@@ -218,6 +218,8 @@ namespace GestionePizzeria.Controllers
 
             db.Ordine.Add(ordine);
             db.SaveChanges();
+            Dictionary<Prodotto, int> Carrello2 = new Dictionary<Prodotto, int>();
+            Session["Carrello"] = Carrello2;
 
 
             return RedirectToAction("Index", "Home");
