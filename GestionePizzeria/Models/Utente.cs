@@ -24,6 +24,7 @@ namespace GestionePizzeria.Models
 
         [Required]
         [StringLength(50)]
+        
         public string Password { get; set; }
 
         [ScaffoldColumn(false)]

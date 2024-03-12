@@ -170,12 +170,12 @@ namespace GestionePizzeria.Controllers
 
             if (now > timeToCheck)
             {
-                var listaProdotti = db.Prodotto.Where(p => p.Pranzo == true).ToList();
+                var listaProdotti = db.Prodotto.Where(p => p.Cena == true).ToList();
                 ViewBag.ListaProdotti = listaProdotti;
             }
             else
             {
-                var listaProdotti = db.Prodotto.Where(p => p.Cena == true).ToList();
+                var listaProdotti = db.Prodotto.Where(p => p.Pranzo == true).ToList();
                 ViewBag.ListaProdotti = listaProdotti;
             }
 

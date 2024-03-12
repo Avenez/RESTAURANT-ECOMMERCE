@@ -3,6 +3,22 @@
 @{
     ViewBag.Title = "Cart";
     Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+    int tempoTotaleOrdine = 0;
+    decimal cifraTotaleOrdine = 0;
+    foreach(KeyValuePair<Prodotto, int> item in Carrello) {
+        tempoTotaleOrdine += item.Key.TempoConsegna * item.Value;
+        cifraTotaleOrdine += item.Key.Prezzo * item.Value;
+
+    }
+
+    int tempoMinutiTot = tempoTotaleOrdine;
+    int oreTot = tempoMinutiTot / 60;
+    int minutiTot = tempoMinutiTot % 60;
+    string tempoConsegnaFormatTot = string.Format("{0:D2}:{1:D2}", oreTot, minutiTot);
+
+    string prezzoFormatTot = cifraTotaleOrdine.ToString("#,##0.00");
+
+
 }
 
 <h2>Carrello</h2>
@@ -60,38 +76,62 @@
                 </div>
             </div>
         }
+    <div class="mt-4 mb-4 border-top border-2 row">
+        <div class="col">
+            <h4 class="display-5">Totale Ordine</h4>
+            <h5 class="display-6">@prezzoFormatTot €</h5>
+        </div>
+        <div class="col text-end ms-auto">
+            <h4 class="display-5">Tempo di consegna</h4>
+            <h5 class="display-6">@tempoConsegnaFormatTot</h5>
+        </div>
+    </div>
 
         @using (Html.BeginForm("SendOrder", "Ordine", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col">
 
-            <div class="form-horizontal">
-                <h4>Ordine</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IndirizzoConsegna, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.IndirizzoConsegna, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.IndirizzoConsegna, "", new { @class = "text-danger" })
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="form-horizontal row">
+        <h4 class="display-6">Inserisci indirizzo di Consegna ed eventuali note</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
+        <div class="col">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IndirizzoConsegna, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IndirizzoConsegna, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IndirizzoConsegna, "", new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Invia Ordine" class="btn btn-outline-info" />
+                </div>
+            </div>
+
+        </div>
+       
+    </div>
         }
 
     </div>
