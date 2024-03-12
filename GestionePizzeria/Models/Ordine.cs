@@ -30,7 +30,7 @@ namespace GestionePizzeria.Models
         [Required]
         public string IndirizzoConsegna { get; set; }
 
-        public string Note { get; set; }
+        public string Note { get; set; } //può essere null sul db
 
         public bool Evaso { get; set; }
 

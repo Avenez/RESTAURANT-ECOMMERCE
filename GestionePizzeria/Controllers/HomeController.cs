@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace GestionePizzeria.Controllers
 {
-    
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         public ActionResult Index()
