@@ -10,11 +10,12 @@ using GestionePizzeria.Models;
 
 namespace GestionePizzeria.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    
     public class OrdineController : Controller
     {
         private ModelDBContext db = new ModelDBContext();
 
+        [Authorize(Roles = "Admin")]
         // GET: Ordine
         public ActionResult Index()
         {
@@ -22,6 +23,7 @@ namespace GestionePizzeria.Controllers
             return View(ordine.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Ordine/Details/5
         public ActionResult Details(int? id)
         {
@@ -37,6 +39,7 @@ namespace GestionePizzeria.Controllers
             return View(ordine);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Ordine/Create
         public ActionResult Create()
         {
@@ -48,6 +51,7 @@ namespace GestionePizzeria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "idOrdine,idUtente,DataOridine,Importo,IndirizzoConsegna,Note,Evaso")] Ordine ordine)
         {
             if (ModelState.IsValid)
@@ -62,6 +66,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // GET: Ordine/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,6 +87,7 @@ namespace GestionePizzeria.Controllers
         // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "idOrdine,idUtente,DataOridine,Importo,IndirizzoConsegna,Note,Evaso")] Ordine ordine)
         {
             if (ModelState.IsValid)
@@ -95,6 +101,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // GET: Ordine/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -112,6 +119,7 @@ namespace GestionePizzeria.Controllers
         // POST: Ordine/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Ordine ordine = db.Ordine.Find(id);
@@ -120,6 +128,7 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -132,6 +141,7 @@ namespace GestionePizzeria.Controllers
         //--------ORDINI----------------
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public ActionResult Cart()
         {
 
@@ -140,6 +150,7 @@ namespace GestionePizzeria.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public ActionResult Cart(int Sum) 
         {
             return View();
@@ -148,6 +159,7 @@ namespace GestionePizzeria.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public ActionResult SendOrder() 
         {
         

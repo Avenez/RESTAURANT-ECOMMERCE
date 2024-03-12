@@ -183,45 +183,32 @@ namespace GestionePizzeria.Controllers
         }
 
         [Authorize(Roles = "Admin, User")]
-        public ActionResult AddToCart(int idProdotto) 
+        public ActionResult AddToCart(int idProdotto)
         {
-            System.Diagnostics.Debug.WriteLine("Id Prodotto" + idProdotto);
-            
-            
+            System.Diagnostics.Debug.WriteLine("Id Prodotto: " + idProdotto);
+
             var prodotto = db.Prodotto.Find(idProdotto);
             Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
 
-
-
-
-
             if (Carrello == null)
             {
-              Carrello = new Dictionary<Prodotto, int>();
+                Carrello = new Dictionary<Prodotto, int>();
+                System.Diagnostics.Debug.WriteLine("Creo Dictonary");
             }
 
-
-            bool prodottoPresente = false;
-            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
+            if (Carrello.ContainsKey(prodotto))
             {
-                if (item.Key.idProdotto == idProdotto) 
-                {
-                    prodottoPresente = true;
-                }
-            
+                
+                // Il prodotto è già presente nel carrello, quindi incrementa la quantità
+                Carrello[prodotto]++;
+                System.Diagnostics.Debug.WriteLine("Quantità incrementata per il prodotto: " + prodotto.Nome);
             }
-
-
-
-            if (prodottoPresente)
+            else
             {
-                Carrello[prodotto]++ ;
-                System.Diagnostics.Debug.WriteLine("Conteggio" + Carrello[prodotto]);
-            }
-            else 
-            {
+                System.Diagnostics.Debug.WriteLine(prodotto);
+                // Il prodotto non è presente nel carrello, quindi aggiungilo con una quantità di 1
                 Carrello.Add(prodotto, 1);
-                System.Diagnostics.Debug.WriteLine("Aggiunto");
+                System.Diagnostics.Debug.WriteLine("Prodotto aggiunto al carrello: " + prodotto.Nome);
             }
 
             Session["Carrello"] = Carrello;

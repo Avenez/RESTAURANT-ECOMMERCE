@@ -51,8 +51,28 @@ namespace GestionePizzeria.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DettaglioOrdine> DettaglioOrdine { get; set; }
 
-       
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Prodotto other = (Prodotto)obj;
+            return idProdotto == other.idProdotto &&
+                   Nome == other.Nome &&
+                   Prezzo == other.Prezzo &&
+                   TempoConsegna == other.TempoConsegna &&
+                   Ingredienti == other.Ingredienti &&
+                   Pranzo == other.Pranzo &&
+                   Cena == other.Cena;
+        }
+
+        public override int GetHashCode()
+        {
+            return idProdotto.GetHashCode();
+        }
 
     }
 }
