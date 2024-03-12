@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -40,11 +41,14 @@ namespace GestionePizzeria.Controllers
                 if (user != null)
                 {
                     FormsAuthentication.SetAuthCookie(user.Username, false);
+                    Session["idUtente"] = user.idUtente;
+                    Dictionary<Prodotto , int> Carrello = new Dictionary<Prodotto , int>();
+                    Session["Carrello"] = Carrello;
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    // Utente non trovato o credenziali non valide, gestire di conseguenza
+                    
                 }
             }
             catch (Exception ex)

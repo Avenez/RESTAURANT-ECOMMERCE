@@ -45,7 +45,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Ordine/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "idOrdine,idUtente,DataOridine,Importo,IndirizzoConsegna,Note,Evaso")] Ordine ordine)
@@ -127,6 +127,32 @@ namespace GestionePizzeria.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //--------ORDINI----------------
+
+        [HttpGet]
+        public ActionResult Cart()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Cart(int Sum) 
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public ActionResult SendOrder() 
+        {
+        
+
+        return RedirectToAction("Index", "Home");
         }
     }
 }

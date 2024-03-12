@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ListaProdotti";
+    List<GestionePizzeria.Models.Prodotto> ListaProdotti = ViewBag.ListaProdotti;
+}
+
+<h2 class="display-5">Seleziona i prodotti che vuoi acquistare</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach(var item in ListaProdotti) {
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div>
+                    <img class="img-fluid" src="@item.Foto" alt="img Prodotto" style="height: 15rem; object-fit: cover" >
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nome</h5>
+                    <p class="card-text">@item.Ingredienti</p>
+                    @Html.ActionLink("Aggiungi al Carrello", "AddTocart", "Prodotto", new { area = "" }, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+

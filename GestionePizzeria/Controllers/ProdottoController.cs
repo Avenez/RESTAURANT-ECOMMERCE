@@ -151,5 +151,47 @@ namespace GestionePizzeria.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //---------Prodotti----------
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet]
+        public ActionResult ListaProdotti()
+        {
+            DateTime now = DateTime.Now;
+            DateTime timeToCheck = now.Date + new TimeSpan(18, 0, 0);
+
+            if (now > timeToCheck)
+            {
+                var listaProdotti = db.Prodotto.Where(p => p.Pranzo == true).ToList();
+                ViewBag.ListaProdotti = listaProdotti;
+            }
+            else
+            {
+                var listaProdotti = db.Prodotto.Where(p => p.Cena == true).ToList();
+                ViewBag.ListaProdotti = listaProdotti;
+            }
+
+            return View();
+        }
+
+
+        public ActionResult AddToCart(int idProdotto) 
+        {
+            var prodotto = db.Prodotto.Find(idProdotto);
+            Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+
+            if (Carrello != null && Carrello.ContainsKey(prodotto))
+            {
+                Carrello[prodotto]++;
+            }
+            else 
+            {
+                Carrello.Add(prodotto, 1);
+            }
+
+            Session["Carrello"] = Carrello;
+
+            return RedirectToAction("ListaProdotti", "Prodotto");
+        }
     }
 }
