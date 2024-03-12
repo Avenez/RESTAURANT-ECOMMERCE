@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using GestionePizzeria.Models;
 
 namespace GestionePizzeria.Controllers
@@ -149,22 +150,80 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        public ActionResult Cart(int Sum) 
+        public ActionResult CartQta(int Sum , int idProdotto) 
         {
-            return View();
+            var prodotto = db.Prodotto.Find(idProdotto);
+            Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+
+
+            if (Sum == 1) 
+            {
+                Carrello[prodotto]++;
+                System.Diagnostics.Debug.WriteLine("Quantità incrementata per il prodotto: " + prodotto.Nome);
+            }
+            else 
+            {
+                
+
+                Carrello[prodotto]--;
+                System.Diagnostics.Debug.WriteLine("Quantità decrementata per il prodotto: " + prodotto.Nome);
+                if (Carrello[prodotto] == 0)
+                {
+                Carrello.Remove(prodotto);
+                    System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto.Nome + "rimosso");
+                }
+              
+            }
+            return RedirectToAction("Cart" , "Ordine");
         }
 
 
 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public ActionResult SendOrder() 
+        public ActionResult SendOrder(Ordine O)
         {
-        
+            Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+            decimal prezzoTotale = 0;
+            System.Diagnostics.Debug.WriteLine("Chiamata metodo SendOrder");
 
-        return RedirectToAction("Index", "Home");
+            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
+            {
+                prezzoTotale += item.Key.Prezzo;
+            
+            }
+
+
+            var ordine = new Ordine
+            {
+                idUtente = Convert.ToInt32(Session["idUtente"]),
+                DataOridine = DateTime.Now,
+                Importo = prezzoTotale,
+                IndirizzoConsegna = O.IndirizzoConsegna,
+                Note = O.Note,
+                Evaso = false,
+
+            };
+
+            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
+            {
+                ordine.DettaglioOrdine.Add(new DettaglioOrdine 
+                {
+                    idProdotto = item.Key.idProdotto,
+                    Qta = item.Value,
+                });
+            }
+
+            db.Ordine.Add(ordine);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index", "Home");
         }
+
+
+
     }
 }
