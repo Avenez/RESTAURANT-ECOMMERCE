@@ -1,0 +1,61 @@
+﻿@using GestionePizzeria.Models;
+@{
+    ViewBag.Title = "Cart";
+    Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+}
+
+<h2>Carrello</h2>
+
+@if (Carrello != null && Carrello.Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Nome
+            </div>
+            <div class="col">
+                Foto
+            </div>
+            <div class="col">
+                Prezzo
+            </div>
+            <div class="col">
+                Qta
+            </div>
+            <div class="col">
+                Tempo Di consegna
+            </div>
+        </div>
+        @foreach (KeyValuePair<Prodotto, int> item in Carrello)
+        {
+            <div class="row">
+                <div class="col">
+                    @item.Key.Nome
+                </div>
+                <div class="col">
+                    <img class="img-thumbnail" src="@item.Key.Foto" alt="Alternate Text" style="width:100px" />
+                </div>
+                <div class="col">
+                    @(item.Key.Prezzo * item.Value) €
+                </div>
+                <div class="col">
+                    @item.Value
+                </div>
+                <div class="col">
+                    @{
+                        int tempoTotaleMinuti = item.Key.TempoConsegna * item.Value;
+                        int ore = tempoTotaleMinuti / 60;
+                        int minuti = tempoTotaleMinuti % 60;
+                        string tempoConsegnaFormat = string.Format("{0:D2}:{1:D2}", ore, minuti);
+                    }
+                    @tempoConsegnaFormat
+                </div>
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <h1>Il carrello è vuoto.</h1>
+}

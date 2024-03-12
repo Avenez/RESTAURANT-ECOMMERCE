@@ -11,17 +11,19 @@ using GestionePizzeria.Models;
 
 namespace GestionePizzeria.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class ProdottoController : Controller
     {
         private ModelDBContext db = new ModelDBContext();
 
+        [Authorize(Roles = "Admin")]
         // GET: Prodotto
         public ActionResult Index()
         {
             return View(db.Prodotto.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Prodotto/Details/5
         public ActionResult Details(int? id)
         {
@@ -37,6 +39,7 @@ namespace GestionePizzeria.Controllers
             return View(prodotto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Prodotto/Create
         [HttpGet]
         public ActionResult Create()
@@ -44,6 +47,7 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Prodotto/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -68,6 +72,7 @@ namespace GestionePizzeria.Controllers
             return View(prodotto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         // GET: Prodotto/Edit/5
         public ActionResult Edit(int? id)
@@ -86,7 +91,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Prodotto/Edit/5
-        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Prodotto prodotto, HttpPostedFileBase Foto)
@@ -116,6 +121,7 @@ namespace GestionePizzeria.Controllers
             return View(prodotto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         // GET: Prodotto/Delete/5
         public ActionResult Delete(int? id)
@@ -133,6 +139,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Prodotto/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -143,6 +150,7 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -174,19 +182,46 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin, User")]
         public ActionResult AddToCart(int idProdotto) 
         {
+            System.Diagnostics.Debug.WriteLine("Id Prodotto" + idProdotto);
+            
+            
             var prodotto = db.Prodotto.Find(idProdotto);
             Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
 
-            if (Carrello != null && Carrello.ContainsKey(prodotto))
+
+
+
+
+            if (Carrello == null)
             {
-                Carrello[prodotto]++;
+              Carrello = new Dictionary<Prodotto, int>();
+            }
+
+
+            bool prodottoPresente = false;
+            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
+            {
+                if (item.Key.idProdotto == idProdotto) 
+                {
+                    prodottoPresente = true;
+                }
+            
+            }
+
+
+
+            if (prodottoPresente)
+            {
+                Carrello[prodotto]++ ;
+                System.Diagnostics.Debug.WriteLine("Conteggio" + Carrello[prodotto]);
             }
             else 
             {
                 Carrello.Add(prodotto, 1);
+                System.Diagnostics.Debug.WriteLine("Aggiunto");
             }
 
             Session["Carrello"] = Carrello;
