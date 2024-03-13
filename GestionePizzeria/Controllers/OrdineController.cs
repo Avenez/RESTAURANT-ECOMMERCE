@@ -20,6 +20,23 @@ namespace GestionePizzeria.Controllers
         // GET: Ordine
         public ActionResult Index()
         {
+            if (Session["inserimento"] == null)
+            {
+                Session["inserimento"] = false;
+            }
+
+            bool ins = (bool)Session["inserimento"];
+
+            if (ins == false)
+            {
+                TempData["Inserimento"] = false;
+            }
+            else
+            {
+                TempData["Inserimento"] = true;
+                Session["inserimento"] = false;
+            }
+
             var ordine = db.Ordine.Include(o => o.Utente);
             return View(ordine.ToList());
         }
@@ -95,6 +112,8 @@ namespace GestionePizzeria.Controllers
             {
                 db.Entry(ordine).State = EntityState.Modified;
                 db.SaveChanges();
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = " Ordine modificato con Successo";
                 return RedirectToAction("Index");
             }
             ViewBag.idUtente = new SelectList(db.Utente, "idUtente", "Username", ordine.idUtente);
@@ -126,6 +145,8 @@ namespace GestionePizzeria.Controllers
             Ordine ordine = db.Ordine.Find(id);
             db.Ordine.Remove(ordine);
             db.SaveChanges();
+            Session["Inserimento"] = true;
+            Session["Messaggio"] = " Ordine eliminato con Successo";
             return RedirectToAction("Index");
         }
 
@@ -220,7 +241,8 @@ namespace GestionePizzeria.Controllers
             db.SaveChanges();
             Dictionary<Prodotto, int> Carrello2 = new Dictionary<Prodotto, int>();
             Session["Carrello"] = Carrello2;
-
+            Session["Inserimento"] = true;
+            Session["Messaggio"] = " Ordine effettuato con Successo";
 
             return RedirectToAction("Index", "Home");
         }
@@ -234,6 +256,8 @@ namespace GestionePizzeria.Controllers
             {
                 OrdineDaModificare.Evaso = true;
                 db.SaveChanges();
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = " Ordine evaso con Successo";
             }
 
             return RedirectToAction("Index", "Ordine");

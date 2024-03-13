@@ -20,6 +20,23 @@ namespace GestionePizzeria.Controllers
         // GET: Prodotto
         public ActionResult Index()
         {
+            if (Session["inserimento"] == null)
+            {
+                Session["inserimento"] = false;
+            }
+
+            bool ins = (bool)Session["inserimento"];
+
+            if (ins == false)
+            {
+                TempData["Inserimento"] = false;
+            }
+            else
+            {
+                TempData["Inserimento"] = true;
+                Session["inserimento"] = false;
+            }
+
             return View(db.Prodotto.ToList());
         }
 
@@ -66,6 +83,8 @@ namespace GestionePizzeria.Controllers
             {
                 db.Prodotto.Add(prodotto);
                 db.SaveChanges();
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = " Prodotto inserito con Successo";
                 return RedirectToAction("Index");
             }
 
@@ -115,6 +134,8 @@ namespace GestionePizzeria.Controllers
             {
                 db.Entry(prodotto).State = EntityState.Modified;
                 db.SaveChanges();
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = " Prodotto modificato con Successo";
                 return RedirectToAction("Index", "Prodotto");
             }
 
@@ -147,6 +168,8 @@ namespace GestionePizzeria.Controllers
             Prodotto prodotto = db.Prodotto.Find(id);
             db.Prodotto.Remove(prodotto);
             db.SaveChanges();
+            Session["Inserimento"] = true;
+            Session["Messaggio"] = " Prodotto eliminato con Successo";
             return RedirectToAction("Index");
         }
 

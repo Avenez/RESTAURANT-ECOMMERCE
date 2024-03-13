@@ -11,7 +11,22 @@ namespace GestionePizzeria.Controllers
     {
         public ActionResult Index()
         {
-            TempData["Inserimento"] = false;
+            if (Session["inserimento"] == null)
+            {
+                Session["inserimento"] = false;
+            }
+
+            bool ins = (bool)Session["inserimento"];
+
+            if (ins == false)
+            {
+                TempData["Inserimento"] = false;
+            }
+            else
+            {
+                TempData["Inserimento"] = true;
+                Session["inserimento"] = false;
+            }
             return View();
         }
 
@@ -29,9 +44,26 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Backoffice()
         {
-            TempData["Inserimento"] = false;
+            if (Session["inserimento"] == null)
+            {
+                Session["inserimento"] = false;
+            }
+
+            bool ins = (bool)Session["inserimento"];
+
+            if (ins == false)
+            {
+                TempData["Inserimento"] = false;
+            }
+            else
+            {
+                TempData["Inserimento"] = true;
+                Session["inserimento"] = false;
+            }
+
             return View();
         }
     }

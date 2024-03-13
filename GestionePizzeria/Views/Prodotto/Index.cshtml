@@ -2,10 +2,14 @@
 
 @{
     ViewBag.Title = "Index";
+    var feedBack = Session["Messaggio"];
+    bool inserimento = (bool)TempData["Inserimento"];
 }
 
 <h2>Index</h2>
-
+<div id="alert" class="alert alert-success @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
+    @feedBack
+</div>
 <p>
     @Html.ActionLink("Create New", "Create", "Prodotto")
 </p>
@@ -68,3 +72,14 @@
 }
 
 </table>
+
+<script>
+    // Verifica se c'è un feedback da mostrare e mostra l'alert se presente
+    var alertDiv = document.getElementById('alert');
+    if (alertDiv.classList.contains('d-block')) {
+        setTimeout(function () {
+            alertDiv.classList.remove('d-none');
+            alertDiv.classList.add('d-none'); // Rimuovi la classe per nascondere l'alert dopo 4 secondi
+        }, 4000);
+    }
+</script>

@@ -25,7 +25,24 @@ namespace GestionePizzeria.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            if (Session["inserimento"] == null)
+            {
+                Session["inserimento"] = false;
+            }
+
+            bool ins = (bool)Session["inserimento"];
+
+            if (ins == false)
+            {
+                TempData["Inserimento"] = false;
+            }
+            else
+            {
+                TempData["Inserimento"] = true;
+                Session["inserimento"] = false;
+            }
             return View();
+            
         }
 
         // Metodo di login che controlla se lo username e la password siano presenti sul db

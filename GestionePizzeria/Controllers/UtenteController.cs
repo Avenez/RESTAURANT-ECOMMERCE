@@ -45,8 +45,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Utente/Create
-        // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -57,6 +56,8 @@ namespace GestionePizzeria.Controllers
                 utente.Ruolo = "User";
                 db.Utente.Add(utente);
                 db.SaveChanges();
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = "Registrazione avvenuta";
                 return RedirectToAction("Login", "Login");
             }
 

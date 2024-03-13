@@ -1,4 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using GestionePizzeria.Models;
+@{
+    Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+    int qtaCarrello = 0;
+
+    if(Carrello != null) {
+        foreach(KeyValuePair<Prodotto,int> item in Carrello)
+        {
+            qtaCarrello += item.Value;
+
+        }
+    }
+
+ }
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,19 +45,28 @@
                         if (User.IsInRole("User"))
                         {
                             <li>@Html.ActionLink("Acquista Prodotti", "ListaProdotti", "Prodotto", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Carrello", "Cart", "Ordine", new { area = "" }, new { @class = "nav-link" })</li>
+                            <div class="position-relative">
+                                <li>
+                                    <a href="/Ordine/Cart" class="nav-link">
+                                        <i class="bi bi-cart4"></i>
+                                        @if (qtaCarrello != 0)
+                                        {<span class="translate-middle badge rounded-pill bg-danger" style="position:absolute; top:11px; left:90%">@qtaCarrello</span>}
+                                    </a>
+                                </li>
+                            </div>
+                    @*<li>@Html.ActionLink("Carrello", "Cart", "Ordine", new { area = "" }, new { @class = "nav-link" })</li>*@
 
-                        }
+                }
 
-                    }
+            }
 
                     @if (Request.Cookies[".ASPXAUTH"] != null)
                     {
-                        <li class="ms-auto d-flex"><i class="bi bi-box-arrow-in-left nav-link ms-0"></i>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="ms-auto d-flex"><i class="bi bi-box-arrow-in-left nav-link"></i>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     else
                     {
-                        <li class="ms-auto d-flex"><i class="bi bi-box-arrow-in-right nav-link ms-0"></i>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="ms-auto d-flex"><i class="bi bi-box-arrow-in-right nav-link"></i>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -50,8 +75,8 @@
                     }
 
 
-                </ul>
-            </div>
+                    </ul>
+                </div>
         </div>
     </nav>
     <div class="container body-content">
@@ -65,5 +90,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>

@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Login";
+    var feedBack = Session["Messaggio"];
+    bool inserimento = (bool)TempData["Inserimento"];
 }
 
 
@@ -12,6 +14,9 @@
             @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-warning" })
         </div>
 
+    </div>
+    <div id="alert" class="alert alert-success @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
+        @feedBack
     </div>
     <div class="offcanvas-body">
 
@@ -55,3 +60,14 @@
 
     </div>
 </div>
+
+<script>
+    // Verifica se c'è un feedback da mostrare e mostra l'alert se presente
+    var alertDiv = document.getElementById('alert');
+    if (alertDiv.classList.contains('d-block')) {
+        setTimeout(function () {
+            alertDiv.classList.remove('d-none');
+            alertDiv.classList.add('d-none'); // Rimuovi la classe per nascondere l'alert dopo 4 secondi
+        }, 4000);
+    }
+</script>
