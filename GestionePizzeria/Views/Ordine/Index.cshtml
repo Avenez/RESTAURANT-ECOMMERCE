@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+
 }
 
 <h2>Index</h2>
@@ -53,9 +54,19 @@
             @Html.DisplayFor(modelItem => item.Evaso)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idOrdine }) |
-            @Html.ActionLink("Details", "Details", new { id=item.idOrdine }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.idOrdine })
+            @Html.ActionLink("Edit", "Edit", new { id = item.idOrdine }) |
+            @Html.ActionLink("Details", "Details", new { id = item.idOrdine }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.idOrdine }) |
+            @if (item.Evaso == false)
+            {
+                @Html.ActionLink("Evadi", "EvadiOrdine", "Ordine" ,new { id = item.idOrdine }, new { @class = "btn btn-warning" })
+            }
+            else
+            {
+                @Html.ActionLink("Evaso", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-success" })
+            }
+
+
         </td>
     </tr>
 }

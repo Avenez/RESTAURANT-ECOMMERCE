@@ -35,8 +35,7 @@ namespace GestionePizzeria.Controllers
         {
             try
             {
-                var user = _dbContext.Utente
-                    .FirstOrDefault(u => u.Username == U.Username && u.Password == U.Password);
+                var user = _dbContext.Utente.FirstOrDefault(u => u.Username == U.Username && u.Password == U.Password);
 
                 if (user != null)
                 {

@@ -15,12 +15,14 @@ namespace GestionePizzeria.Controllers
         private ModelDBContext db = new ModelDBContext();
 
         // GET: Utente
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Utente.ToList());
         }
 
         // GET: Utente/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // GET: Utente/Create
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
@@ -46,20 +49,22 @@ namespace GestionePizzeria.Controllers
         // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "idUtente,Username,Password,Ruolo")] Utente utente)
+        [AllowAnonymous]
+        public ActionResult Create([Bind(Exclude = "Ruolo")] Utente utente)
         {
             if (ModelState.IsValid)
             {
                 utente.Ruolo = "User";
                 db.Utente.Add(utente);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Login");
             }
 
             return View(utente);
         }
 
         // GET: Utente/Edit/5
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,6 +84,7 @@ namespace GestionePizzeria.Controllers
         // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "idUtente,Username,Password,Ruolo")] Utente utente)
         {
             if (ModelState.IsValid)
@@ -91,6 +97,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // GET: Utente/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -108,6 +115,7 @@ namespace GestionePizzeria.Controllers
         // POST: Utente/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Utente utente = db.Utente.Find(id);
@@ -116,6 +124,7 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

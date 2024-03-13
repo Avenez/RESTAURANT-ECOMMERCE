@@ -11,6 +11,7 @@ namespace GestionePizzeria.Controllers
     {
         public ActionResult Index()
         {
+            TempData["Inserimento"] = false;
             return View();
         }
 
@@ -25,6 +26,12 @@ namespace GestionePizzeria.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Backoffice()
+        {
+            TempData["Inserimento"] = false;
             return View();
         }
     }

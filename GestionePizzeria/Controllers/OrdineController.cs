@@ -226,6 +226,17 @@ namespace GestionePizzeria.Controllers
         }
 
 
+        public ActionResult EvadiOrdine(int id) 
+        {
+            var OrdineDaModificare = db.Ordine.Find(id);
 
+            if (OrdineDaModificare != null) 
+            {
+                OrdineDaModificare.Evaso = true;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Ordine");
+        }
     }
 }
