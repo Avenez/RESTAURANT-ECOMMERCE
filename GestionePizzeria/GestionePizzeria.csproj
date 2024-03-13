@@ -134,6 +134,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrdineController.cs" />
     <Compile Include="Controllers\ProdottoController.cs" />
+    <Compile Include="Controllers\StatisticheController.cs" />
     <Compile Include="Controllers\UtenteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,6 +223,7 @@
     <Content Include="Views\Prodotto\ListaProdotti.cshtml" />
     <Content Include="Views\Ordine\Cart.cshtml" />
     <Content Include="Views\Home\Backoffice.cshtml" />
+    <Content Include="Views\Statistiche\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

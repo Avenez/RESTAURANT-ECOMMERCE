@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     var feedBack = Session["Messaggio"];
     bool inserimento = (bool)TempData["Inserimento"];
+
 }
 
 <h2>Index</h2>
@@ -66,7 +67,7 @@
             }
             else
             {
-                @Html.ActionLink("Evaso", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Evaso", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-success disabled" })
             }
 
 

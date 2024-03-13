@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Statistics";
+}
+
+<h2>Statistics</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4 class="display-4">Ordini Evasi Oggi</h4>
+            <h1 class="display-1" id="NumEvasi"></h1>
+        </div>
+        <div class="col">
+            <h4 class="display-4">Totale Incasso Giornata</h4>
+            <h1 class="display-1" id="IncassoDay"></h1>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajax({
+                url: 'TotEvasi',
+                type: 'GET',
+                dataType: 'json',
+
+                success: function (data)
+                {
+                    $('#NumEvasi').text(data)
+                },
+                error: function (err) {
+                    console.error('Errore durante la richiesta AJAX:', err);
+                }
+            })
+
+            $.ajax({
+
+                url: 'TotIncasso',
+                type: 'GET',
+                dataType: 'json',
+
+                success: function (data)
+                {
+                    $('#IncassoDay').text(data + " €")
+                },
+                error: function (err) {
+                    console.error('Errore durante la richiesta AJAX:', err);
+                }
+            })
+        })
+
+
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }
+
