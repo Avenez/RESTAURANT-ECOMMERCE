@@ -191,7 +191,7 @@ namespace GestionePizzeria.Controllers
 
             foreach (KeyValuePair<Prodotto, int> item in Carrello) 
             {
-                prezzoTotale += item.Key.Prezzo;
+                prezzoTotale += (item.Key.Prezzo * item.Value);
             
             }
 
