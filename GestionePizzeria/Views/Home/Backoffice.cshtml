@@ -10,24 +10,35 @@
         <div class="col">
             <div class="row g-4 justify-content-between">
 
-                <div class="col-3 slide-in-right cardHover" style="background-image: url(/Images/Azienda2.jpg); background-size: cover; background-repeat: no-repeat;">
+                <div class="col-3 slide-in-right cardHover p-0 border border-dark border-2" style="background-image: url(/Images/ProdottiNew.jpg); background-size: cover; background-repeat: no-repeat;">
+                    
+                    <div class="w-100 bg-dark mt-5 text-center">
+                        <h2 class="display-4 text-white">Prodotti</h2>
+                    </div>
                     <div class="p-4 d-flex flex-column" style="height: 600px;">
-                        <h2 class="display-6">Prodotti</h2>
+                        
                         @Html.ActionLink("Gestione Prodotti", "Index", "Prodotto", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
 
                     </div>
                 </div>
 
-                <div class="col-3 slide-in-right-1 cardHover" style="background-image: url(/Images/privato.jpg); background-size: cover; background-repeat: no-repeat;">
+                <div class="col-3 slide-in-right-1 cardHover p-0 border border-dark border-2" style="background-image: url(/Images/Ordininew.jpg); background-size: cover; background-repeat: no-repeat;">
+                    <div class="w-100 bg-dark mt-5 text-center">
+                        <h2 class="display-4 text-white">Ordini</h2>
+                    </div>
                     <div class="p-4 d-flex flex-column" style="height: 600px;">
-                        <h2 class="display-6">Ordini</h2>
-                        @Html.ActionLink("Gestisce Ordini", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
+
+                        @Html.ActionLink("Gestione Ordini", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
                     </div>
                 </div>
 
-                <div class="col-3 cardHover  slide-in-right-2" style="background-image: url(/Images/spedizione.jpg); background-size: cover; background-repeat: no-repeat;">
+                <div class="col-3 cardHover  slide-in-right-2 p-0 border border-dark border-2" style="background-image: url(/Images/statistiche.jpg); background-size: cover; background-repeat: no-repeat;">
+                    <div class="w-100 bg-dark mt-5 text-center">
+                        <h2 class="display-4 text-white">Statistiche</h2>
+                    </div>
+                    
                     <div class="p-4 d-flex flex-column" style="height: 600px;">
-                        <h2 class="display-6">Statistiche</h2>
+                        
                         @Html.ActionLink("Vai alle Statistiche", "Statistics", "Statistiche", new { area = "" }, new { @class = "btn btn-dark mt-auto" })
                         
                     </div>
