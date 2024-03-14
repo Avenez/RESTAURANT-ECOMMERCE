@@ -1,17 +1,19 @@
 ﻿
 @{
     ViewBag.Title = "Statistics";
+    string date = Convert.ToString(DateTime.Now.ToShortDateString());
 }
 
-<h2>Statistics</h2>
-
+<h2 class="display-4 mb-3">Statistiche di oggi : @date </h2>
+<hr />
 <div class="container">
     <div class="row">
-        <div class="col">
+        <div class="col glass-green slide-in-right">
             <h4 class="display-4">Ordini Evasi Oggi</h4>
             <h1 class="display-1" id="NumEvasi"></h1>
         </div>
-        <div class="col">
+        <div class="col-1"></div>
+        <div class="col glass-blue slide-in-right-1">
             <h4 class="display-4">Totale Incasso Giornata</h4>
             <h1 class="display-1" id="IncassoDay"></h1>
         </div>

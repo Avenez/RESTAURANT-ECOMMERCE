@@ -5,10 +5,11 @@
     Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
     int tempoTotaleOrdine = 0;
     decimal cifraTotaleOrdine = 0;
-    foreach(KeyValuePair<Prodotto, int> item in Carrello) {
-        tempoTotaleOrdine += item.Key.TempoConsegna * item.Value;
-        cifraTotaleOrdine += item.Key.Prezzo * item.Value;
-
+    if(Carrello != null) {
+        foreach(KeyValuePair<Prodotto, int> item in Carrello) {
+            tempoTotaleOrdine += item.Key.TempoConsegna * item.Value;
+            cifraTotaleOrdine += item.Key.Prezzo * item.Value;
+        }
     }
 
     int tempoMinutiTot = tempoTotaleOrdine;
@@ -26,113 +27,141 @@
 @if (Carrello != null && Carrello.Count > 0)
 {
     <div class="container">
-        <div class="row">
-            <div class="col">
-                Nome
+        <div class="row  mb-3">
+            <div class="col me-4" >
+                <div class="row fw-bold">
+                    <div class="col">
+                        Nome
+                    </div>
+                    <div class="col">
+                        Foto
+                    </div>
+                    <div class="col">
+                        Prezzo
+                    </div>
+                    <div class="col">
+                        Qta
+                    </div>
+                    <div class="col">
+                        Tempo Di consegna
+                    </div>
+                    <div class="col-1">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="height:50vh; overflow-x:clip; overflow-y:scroll">
+
+
+                        @foreach (KeyValuePair<Prodotto, int> item in Carrello)
+                        {
+                            <div class="row mb-3 border border-3 border-dark rounded-3 p-2">
+                                <div class="col pt-4">
+                                    @item.Key.Nome
+                                </div>
+                                <div class="col">
+                                    <img class="" src="@item.Key.Foto" alt="Alternate Text" style="width:100px" />
+                                </div>
+                                <div class="col pt-4">
+                                    @{decimal prezzo = item.Key.Prezzo * item.Value;
+                                        string prezzoFormattato = prezzo.ToString("#,##0.00");
+                                    }
+
+
+                                    @prezzoFormattato€
+                                </div>
+                                <div class="col pt-3">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <a href="@Url.Action("CartQta", "Ordine", new { Sum = 0, idProdotto = item.Key.idProdotto })" class="btn btn-dark"><i class="bi bi-dash"></i></a>
+                                        </div>
+
+                                        <div class="col-2 fw-bold pt-1 ps-4">
+                                            @item.Value
+                                        </div>
+
+                                        <div class="col-3">
+                                            <a href="@Url.Action("CartQta", "Ordine", new { Sum = 1, idProdotto = item.Key.idProdotto })" class="btn btn-dark"><i class="bi bi-plus-lg"></i></a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col pt-4">
+                                    @{
+                                        int tempoTotaleMinuti = item.Key.TempoConsegna * item.Value;
+                                        int ore = tempoTotaleMinuti / 60;
+                                        int minuti = tempoTotaleMinuti % 60;
+                                        string tempoConsegnaFormat = string.Format("{0:D2}:{1:D2}", ore, minuti);
+                                    }
+                                    @tempoConsegnaFormat
+                                </div>
+                                <div class="col-1 pt-3">
+                                    <a href="@Url.Action("RemoveFromCart", "Ordine", new { idProdotto = item.Key.idProdotto  })" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="mt-4 mb-4 border-top border-2 row">
+                    <div class="col ">
+                        <h4 class="display-6">Tempo di consegna</h4>
+                        <h5 class="display-5">@tempoConsegnaFormatTot</h5>
+                    </div>
+                    <div class="col text-end ms-auto">
+                        <h4 class="display-6">Totale Ordine</h4>
+                        <h5 class="display-5">@prezzoFormatTot €</h5>
+                    </div>
+
+                </div>
             </div>
-            <div class="col">
-                Foto
+
+            <div class="col-4 border-start border-2 border-warning">
+                @using (Html.BeginForm("SendOrder", "Ordine", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+ 
+                    <div class="form-horizontal row gy-4">
+                        <h4 class="">Inserisci l'indirizzo di Consegna ed eventuali note</h4>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IndirizzoConsegna, htmlAttributes: new { @class = "control-label col-md-2 fw-bold fs-5 w-100" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.IndirizzoConsegna, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.IndirizzoConsegna, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2 fw-bold fs-5 w-100" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Invia Ordine" class="btn btn-warning w-100" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
             </div>
-            <div class="col">
-                Prezzo
-            </div>
-            <div class="col">
-                Qta
-            </div>
-            <div class="col">
-                Tempo Di consegna
-            </div>
+            
         </div>
-        @foreach (KeyValuePair<Prodotto, int> item in Carrello)
-        {
-            <div class="row">
-                <div class="col">
-                    @item.Key.Nome
-                </div>
-                <div class="col">
-                    <img class="img-thumbnail" src="@item.Key.Foto" alt="Alternate Text" style="width:100px" />
-                </div>
-                <div class="col">
-                    @{decimal prezzo = item.Key.Prezzo * item.Value;
-                        string prezzoFormattato = prezzo.ToString("#,##0.00");
-                    }
+        
+    
 
-
-                    @prezzoFormattato€
-                </div>
-                <div class="col">
-                    @Html.ActionLink("-", "CartQta", "Ordine", new { Sum = 0, idProdotto = item.Key.idProdotto }, new { @class = "btn btn-dark" })
-                    @item.Value
-                    @Html.ActionLink("+", "CartQta", "Ordine", new { Sum = 1, idProdotto = item.Key.idProdotto }, new { @class = "btn btn-dark" })
-                </div>
-                <div class="col">
-                    @{
-                        int tempoTotaleMinuti = item.Key.TempoConsegna * item.Value;
-                        int ore = tempoTotaleMinuti / 60;
-                        int minuti = tempoTotaleMinuti % 60;
-                        string tempoConsegnaFormat = string.Format("{0:D2}:{1:D2}", ore, minuti);
-                    }
-                    @tempoConsegnaFormat
-                </div>
-            </div>
-        }
-    <div class="mt-4 mb-4 border-top border-2 row">
-        <div class="col">
-            <h4 class="display-5">Totale Ordine</h4>
-            <h5 class="display-6">@prezzoFormatTot €</h5>
-        </div>
-        <div class="col text-end ms-auto">
-            <h4 class="display-5">Tempo di consegna</h4>
-            <h5 class="display-6">@tempoConsegnaFormatTot</h5>
-        </div>
-    </div>
-
-        @using (Html.BeginForm("SendOrder", "Ordine", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-    <div class="row">
-        <div class="col">
-
-
-
-        </div>
-        <div class="col"></div>
-    </div>
-    <div class="form-horizontal row">
-        <h4 class="display-6">Inserisci indirizzo di Consegna ed eventuali note</h4>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="col">
-            <div class="form-group">
-                @Html.LabelFor(model => model.IndirizzoConsegna, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.IndirizzoConsegna, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.IndirizzoConsegna, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Invia Ordine" class="btn btn-outline-info" />
-                </div>
-            </div>
-
-        </div>
-       
-    </div>
-        }
+        
 
     </div>
 }

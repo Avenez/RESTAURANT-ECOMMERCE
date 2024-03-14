@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.ConstrainedExecution;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
@@ -163,7 +164,7 @@ namespace GestionePizzeria.Controllers
         //--------ORDINI----------------
 
         [HttpGet]
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "User")]
         public ActionResult Cart()
         {
 
@@ -200,54 +201,68 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Cart" , "Ordine");
         }
 
+        [Authorize(Roles = "User")]
+        public ActionResult RemoveFromCart(int idProdotto)
+        {
+            var prodotto = db.Prodotto.Find(idProdotto);
+            Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+            Carrello.Remove(prodotto);
+            return RedirectToAction("Cart", "Ordine");
+        }
+
 
 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
         public ActionResult SendOrder(Ordine O)
         {
-            Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
-            decimal prezzoTotale = 0;
-            System.Diagnostics.Debug.WriteLine("Chiamata metodo SendOrder");
-
-            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
+            if (ModelState.IsValid)
             {
-                prezzoTotale += (item.Key.Prezzo * item.Value);
-            
-            }
+                Dictionary<Prodotto, int> Carrello = Session["Carrello"] as Dictionary<Prodotto, int>;
+                decimal prezzoTotale = 0;
+                System.Diagnostics.Debug.WriteLine("Chiamata metodo SendOrder");
 
-
-            var ordine = new Ordine
-            {
-                idUtente = Convert.ToInt32(Session["idUtente"]),
-                DataOridine = DateTime.Now,
-                Importo = prezzoTotale,
-                IndirizzoConsegna = O.IndirizzoConsegna,
-                Note = O.Note,
-                Evaso = false,
-
-            };
-
-            foreach (KeyValuePair<Prodotto, int> item in Carrello) 
-            {
-                ordine.DettaglioOrdine.Add(new DettaglioOrdine 
+                foreach (KeyValuePair<Prodotto, int> item in Carrello)
                 {
-                    idProdotto = item.Key.idProdotto,
-                    Qta = item.Value,
-                });
+                    prezzoTotale += (item.Key.Prezzo * item.Value);
+
+                }
+
+
+                var ordine = new Ordine
+                {
+                    idUtente = Convert.ToInt32(Session["idUtente"]),
+                    DataOridine = DateTime.Now,
+                    Importo = prezzoTotale,
+                    IndirizzoConsegna = O.IndirizzoConsegna,
+                    Note = O.Note,
+                    Evaso = false,
+
+                };
+
+                foreach (KeyValuePair<Prodotto, int> item in Carrello)
+                {
+                    ordine.DettaglioOrdine.Add(new DettaglioOrdine
+                    {
+                        idProdotto = item.Key.idProdotto,
+                        Qta = item.Value,
+                    });
+                }
+
+                db.Ordine.Add(ordine);
+                db.SaveChanges();
+                Dictionary<Prodotto, int> Carrello2 = new Dictionary<Prodotto, int>();
+                Session["Carrello"] = Carrello2;
+                Session["Inserimento"] = true;
+                Session["Messaggio"] = " Ordine effettuato con Successo";
+
+                return RedirectToAction("Index", "Home");
             }
 
-            db.Ordine.Add(ordine);
-            db.SaveChanges();
-            Dictionary<Prodotto, int> Carrello2 = new Dictionary<Prodotto, int>();
-            Session["Carrello"] = Carrello2;
-            Session["Inserimento"] = true;
-            Session["Messaggio"] = " Ordine effettuato con Successo";
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Cart", "Ordine");
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult EvadiOrdine(int id) 
         {
             var OrdineDaModificare = db.Ordine.Find(id);

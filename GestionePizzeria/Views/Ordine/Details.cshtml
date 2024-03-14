@@ -4,17 +4,17 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2 class="display-4">Dettaglio Ordine </h2>
 
 <div>
-    <h4>Ordine</h4>
+
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal fs-5">
         <dt>
             @Html.DisplayNameFor(model => model.Utente.Username)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.Utente.Username)
         </dd>
 
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.DataOridine)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.DataOridine)
         </dd>
 
@@ -30,7 +30,7 @@
             @Html.DisplayNameFor(model => model.Importo)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.Importo)
         </dd>
 
@@ -38,7 +38,7 @@
             @Html.DisplayNameFor(model => model.IndirizzoConsegna)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.IndirizzoConsegna)
         </dd>
 
@@ -46,7 +46,7 @@
             @Html.DisplayNameFor(model => model.Note)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.Note)
         </dd>
 
@@ -54,13 +54,13 @@
             @Html.DisplayNameFor(model => model.Evaso)
         </dt>
 
-        <dd>
+        <dd class="mb-3">
             @Html.DisplayFor(model => model.Evaso)
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.idOrdine }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="d-flex justify-content-between">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idOrdine }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Indietro", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-dark" })
+</div>

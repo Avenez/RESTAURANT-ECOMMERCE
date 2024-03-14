@@ -166,6 +166,8 @@ namespace GestionePizzeria.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Prodotto prodotto = db.Prodotto.Find(id);
+            var dettaglioOrdiniToDelete = db.DettaglioOrdine.Where(d => d.idProdotto == id);
+            db.DettaglioOrdine.RemoveRange(dettaglioOrdiniToDelete);
             db.Prodotto.Remove(prodotto);
             db.SaveChanges();
             Session["Inserimento"] = true;
@@ -195,11 +197,13 @@ namespace GestionePizzeria.Controllers
             {
                 var listaProdotti = db.Prodotto.Where(p => p.Cena == true).ToList();
                 ViewBag.ListaProdotti = listaProdotti;
+                ViewBag.MenuType = "Cena";
             }
             else
             {
                 var listaProdotti = db.Prodotto.Where(p => p.Pranzo == true).ToList();
                 ViewBag.ListaProdotti = listaProdotti;
+                ViewBag.MenuType = "Pranzo";
             }
 
             return View();
@@ -240,6 +244,6 @@ namespace GestionePizzeria.Controllers
         }
 
 
-       
+
     }
 }

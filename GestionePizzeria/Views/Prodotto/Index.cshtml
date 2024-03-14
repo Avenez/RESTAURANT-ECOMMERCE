@@ -6,72 +6,87 @@
     bool inserimento = (bool)TempData["Inserimento"];
 }
 
-<h2>Index</h2>
+<h2>Prodotti disponibili</h2>
 <div id="alert" class="alert alert-success @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
     @feedBack
 </div>
 <p>
-    @Html.ActionLink("Create New", "Create", "Prodotto")
+    @Html.ActionLink("Aggiungi un Prodotto", "Create", "Prodotto", new { @class = "btn btn-warning" })
 </p>
-<table class="table">
-    <tr>
-        <th>
+
+<div class="glass-white container" style="position:sticky; top:180px; z-index:1000000000">
+
+    <div class="row fw-bold pe-4">
+        <div class="col">
             @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.Foto)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.Prezzo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TempoConsegna)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ingredienti)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pranzo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cena)
-        </th>
-        <th></th>
-    </tr>
+        </div>
+        <div class="col">
+            Tempo di Consegna
+        </div>
+        @*<div class="col">
+                @Html.DisplayNameFor(model => model.Ingredienti)
+            </div>*@
+        <div class="col">
+            Disponibile a Pranzo
+        </div>
+        <div class="col">
+            Disponibile a Cena
+        </div>
+        <div class="col-2">
+            @Html.ActionLink("Indietro", "Backoffice", "Home", new { area = "" }, new { @class = "btn btn-dark" })
+        </div>
+    </div>
+</div>
+<div class="container">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            <img src="@item.Foto" alt="Foto Prodotto" class="img-thumbnail" style="width:100px" />
-            @*@Html.DisplayFor(modelItem => item.Foto)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prezzo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TempoConsegna)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ingredienti)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pranzo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cena)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.idProdotto }) |
-            @Html.ActionLink("Details", "Details", new { id=item.idProdotto }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.idProdotto })
-        </td>
-    </tr>
-}
 
-</table>
+    @foreach (var item in Model)
+    {
+        <div class=" border border-3 border-dark rounded-3 mb-3 row p-2 pe-4">
+            <div class="border-0 col">
+                @Html.DisplayFor(modelItem => item.Nome)
+            </div>
+            <div class="border-0 col">
+                <img src="@item.Foto" alt="Foto Prodotto" class="" style="width:120px" />
+                @*@Html.DisplayFor(modelItem => item.Foto)*@
+            </div>
+            <div class="border-0 col">
+                @Html.DisplayFor(modelItem => item.Prezzo) €
+            </div>
+            <div class="border-0 col">
+                @Html.DisplayFor(modelItem => item.TempoConsegna) min
+            </div>
+            @*<div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.Ingredienti)
+                </div>*@
+            <div class="border-0 col">
+                @Html.DisplayFor(modelItem => item.Pranzo)
+            </div>
+            <div class="border-0 col">
+                @Html.DisplayFor(modelItem => item.Cena)
+            </div>
+            <div class="d-flex border-0 col-2">
+                <div>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.idProdotto }, new { @class = "btn btn-info me-2" })
+                </div>
+
+                <div>
+                    @Html.ActionLink("Details", "Details", new { id = item.idProdotto }, new { @class = "btn btn-secondary me-2" })
+                </div>
+                <div>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.idProdotto }, new { @class = "btn btn-danger me-2" })
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
 
 <script>
     // Verifica se c'è un feedback da mostrare e mostra l'alert se presente

@@ -4,20 +4,34 @@
     ViewBag.Title = "Login";
     var feedBack = Session["Messaggio"];
     bool inserimento = (bool)TempData["Inserimento"];
+    bool good = true;
+    if (inserimento) {
+         good = (bool)Session["Good"];
+    }
+
 }
 
 
 <div class="offcanvas offcanvas-start show showing glass-red zindex-login swing-in-left-bck" data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-        <h3 class="offcanvas-title text-white display-6" id="offcanvasExampleLabel">Pizzeria</h3>
+        <h3 class="offcanvas-title text-white display-6" id="offcanvasExampleLabel">Login</h3>
         <div class="ms-auto">
             @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-warning" })
         </div>
 
     </div>
+    @if(good){ 
     <div id="alert" class="alert alert-success @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
         @feedBack
     </div>
+    }
+    else 
+    { 
+    <div id="alert" class="alert alert-warning @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
+        @feedBack
+    </div>
+    }
+    
     <div class="offcanvas-body">
 
 

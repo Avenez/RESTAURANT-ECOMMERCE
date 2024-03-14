@@ -7,84 +7,96 @@
 
 }
 
-<h2>Index</h2>
+<h2>Ordini effettuati</h2>
 <div id="alert" class="alert alert-success @((inserimento == true ? "d-block" : "d-none" )) " role="alert">
     @feedBack
 </div>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
+
+<div class="glass-white container" style="position:sticky; top:10px; z-index:1000000000; height:60px">
+    <div class="row fw-bold p-2">
+        <div class="col">
             @Html.DisplayNameFor(model => model.Utente.Username)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.DataOridine)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.Importo)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.IndirizzoConsegna)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.Note)
-        </th>
-        <th>
+        </div>
+        <div class="col">
             @Html.DisplayNameFor(model => model.Evaso)
-        </th>
-        <th></th>
-    </tr>
+        </div>
+        <div class="col-2">
+            @Html.ActionLink("Indietro", "Backoffice", "Home", new { area = "" }, new { @class = "btn btn-dark" })
+        </div>
+    </div>
+</div>
+    <div class="container">
+        @foreach (var item in Model)
+        {
+            <div class=" border border-3 border-dark rounded-3 mb-3 pt-4 row" style="height:100px">
+                <div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.Utente.Username)
+                </div>
+                <div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.DataOridine)
+                </div>
+                <div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.Importo) €
+                </div>
+                <div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.IndirizzoConsegna)
+                </div>
+                <div class="border-0 col h-100" style="overflow-y:scroll; overflow-x:clip">
+                    @Html.DisplayFor(modelItem => item.Note)
+                </div>
+                <div class="border-0 col">
+                    @Html.DisplayFor(modelItem => item.Evaso)
+                </div>
+                <div class="d-flex border-0 col-2">
+                    <div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Utente.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataOridine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Importo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IndirizzoConsegna)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Evaso)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.idOrdine }) |
-            @Html.ActionLink("Details", "Details", new { id = item.idOrdine }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.idOrdine }) |
-            @if (item.Evaso == false)
-            {
-                @Html.ActionLink("Evadi", "EvadiOrdine", "Ordine" ,new { id = item.idOrdine }, new { @class = "btn btn-warning" })
+                        <a href="@Url.Action("Details", "Ordine", new { id = item.idOrdine })" class="btn btn-secondary me-2"><i class="bi bi-search"></i></a>
+
+                    </div>
+                    <div>
+                        <a href="@Url.Action("Edit", "Ordine", new { id = item.idOrdine })" class="btn btn-info me-2"><i class="bi bi-pencil-square"></i></a>
+
+                    </div>
+                    @if (item.Evaso == false)
+                    {
+                        <div>
+                            @Html.ActionLink("Evadi", "EvadiOrdine", "Ordine", new { id = item.idOrdine }, new { @class = "btn btn-warning" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            @Html.ActionLink("Evaso", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-success disabled" })
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        }
+
+        </div>
+
+
+        <script>
+            // Verifica se c'è un feedback da mostrare e mostra l'alert se presente
+            var alertDiv = document.getElementById('alert');
+            if (alertDiv.classList.contains('d-block')) {
+                setTimeout(function () {
+                    alertDiv.classList.remove('d-none');
+                    alertDiv.classList.add('d-none'); // Rimuovi la classe per nascondere l'alert dopo 4 secondi
+                }, 4000);
             }
-            else
-            {
-                @Html.ActionLink("Evaso", "Index", "Ordine", new { area = "" }, new { @class = "btn btn-success disabled" })
-            }
-
-
-        </td>
-    </tr>
-}
-
-</table>
-
-
-<script>
-    // Verifica se c'è un feedback da mostrare e mostra l'alert se presente
-    var alertDiv = document.getElementById('alert');
-    if (alertDiv.classList.contains('d-block')) {
-        setTimeout(function () {
-            alertDiv.classList.remove('d-none');
-            alertDiv.classList.add('d-none'); // Rimuovi la classe per nascondere l'alert dopo 4 secondi
-        }, 4000);
-    }
-</script>
+        </script>

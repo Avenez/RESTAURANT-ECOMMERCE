@@ -30,7 +30,7 @@ namespace GestionePizzeria.Models
 
         [Column(TypeName = "money")]
         [Display(Name = "Prezzo del Prodotto")]
-        [RegularExpression("([0-9]+)", ErrorMessage = "Possono essere inseriti solo numeri")]
+        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal Prezzo { get; set; }
 
         [Required]

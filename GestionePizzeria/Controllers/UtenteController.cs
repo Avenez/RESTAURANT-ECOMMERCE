@@ -56,7 +56,8 @@ namespace GestionePizzeria.Controllers
                 utente.Ruolo = "User";
                 db.Utente.Add(utente);
                 db.SaveChanges();
-                Session["Inserimento"] = true;
+                TempData["Inserimento"] = true;
+                Session["Good"] = true;
                 Session["Messaggio"] = "Registrazione avvenuta";
                 return RedirectToAction("Login", "Login");
             }

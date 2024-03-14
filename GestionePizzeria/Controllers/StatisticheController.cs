@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace GestionePizzeria.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class StatisticheController : Controller
     {
 
@@ -24,6 +25,7 @@ namespace GestionePizzeria.Controllers
             DateTime dataFine = DateTime.Today.AddDays(1).AddSeconds(-1);
 
 
+
             var TotOrdiniEvasi = db.Ordine.Where(o => o.Evaso == true).Where(o => o.DataOridine > dataInizio).Where(o => o.DataOridine < dataFine).Count();
 
             return Json(TotOrdiniEvasi, JsonRequestBehavior.AllowGet);
@@ -36,8 +38,7 @@ namespace GestionePizzeria.Controllers
             DateTime dataInizio = DateTime.Today;
             DateTime dataFine = DateTime.Today.AddDays(1).AddSeconds(-1);
 
-            var TotIncassoOrdini = db.Ordine.Where(o => o.Evaso == true).Where(o => o.DataOridine > dataInizio).Where(o => o.DataOridine < dataFine).Sum(o => o.Importo);
-
+            var TotIncassoOrdini = db.Ordine.Where(o => o.Evaso == true && o.DataOridine > dataInizio && o.DataOridine < dataFine).Sum(o => (decimal?)o.Importo) ?? 0;
 
             return Json(TotIncassoOrdini, JsonRequestBehavior.AllowGet);
         }

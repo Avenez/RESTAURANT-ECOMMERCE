@@ -24,11 +24,15 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-orange zindex-nav fs-4">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-orange fs-4 fw-bold">
         <div class="container">
-            <a href="/Home/index" class="text-decoration-none"><img src="~/Images/logo.png" alt="Alternate Text" style="width:160px" ; /></a>
+            <a href="/Home/index" class="text-decoration-none"><img src="~/Images/logo.png" alt="Alternate Text" style="width:120px"/></a>
 
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Attiva/Disattiva spostamento" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +41,7 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    @*<li>@Html.ActionLink("Informazioni", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
+                   
 
 
 
@@ -45,7 +49,7 @@
                     {
                         if (User.IsInRole("User"))
                         {
-                            <li>@Html.ActionLink("Acquista Prodotti", "ListaProdotti", "Prodotto", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li class="ms-auto me-2" >@Html.ActionLink("Ordina", "ListaProdotti", "Prodotto", new { area = "" }, new { @class = "nav-link" })</li>
                             <div class="position-relative">
                                 <li>
                                     <a href="/Ordine/Cart" class="nav-link">

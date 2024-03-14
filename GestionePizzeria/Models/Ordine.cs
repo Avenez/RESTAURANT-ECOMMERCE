@@ -27,7 +27,9 @@ namespace GestionePizzeria.Models
         [Column(TypeName = "money")]
         public decimal Importo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "L'indirizzo di consegna è obbligatorio")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "L'idirizzo deve essere di almeno 5 caratteri")]
+        [Display(Name ="Indirizzo di consegna")]
         public string IndirizzoConsegna { get; set; }
 
         public string Note { get; set; } //può essere null sul db

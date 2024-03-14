@@ -25,12 +25,12 @@ namespace GestionePizzeria.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if (Session["inserimento"] == null)
+            if (TempData["inserimento"] == null)
             {
-                Session["inserimento"] = false;
+                TempData["inserimento"] = false;
             }
 
-            bool ins = (bool)Session["inserimento"];
+            bool ins = (bool)TempData["inserimento"];
 
             if (ins == false)
             {
@@ -39,7 +39,7 @@ namespace GestionePizzeria.Controllers
             else
             {
                 TempData["Inserimento"] = true;
-                Session["inserimento"] = false;
+                
             }
             return View();
             
@@ -64,7 +64,10 @@ namespace GestionePizzeria.Controllers
                 }
                 else
                 {
-                    
+                    TempData["Inserimento"] = true;
+                    Session["Good"] = false;
+                    Session["Messaggio"] = "Utente non registrato";
+                    return View(U);
                 }
             }
             catch (Exception ex)
@@ -79,6 +82,7 @@ namespace GestionePizzeria.Controllers
         // LogOut con FormsAuthentication.SignOut();
         public ActionResult Logout()
         {
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
