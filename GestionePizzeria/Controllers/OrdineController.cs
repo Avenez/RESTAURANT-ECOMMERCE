@@ -19,6 +19,7 @@ namespace GestionePizzeria.Controllers
 
         [Authorize(Roles = "Admin")]
         // GET: Ordine
+        //Metodo per l'index degli ordini con controllo delle session usate per il feed all'utente
         public ActionResult Index()
         {
             if (Session["inserimento"] == null)
@@ -103,7 +104,6 @@ namespace GestionePizzeria.Controllers
 
         // POST: Ordine/Edit/5
         // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -138,6 +138,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Ordine/Delete/5
+        //Metodo per l'eliminazione di un ordine (non usato)
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -163,6 +164,7 @@ namespace GestionePizzeria.Controllers
 
         //--------ORDINI----------------
 
+        //Action per l'accesso al carrello utente
         [HttpGet]
         [Authorize(Roles = "User")]
         public ActionResult Cart()
@@ -172,6 +174,11 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
+        //Action per la gestione dell'aggiunta o eliminazione di una qta di prodotto
+        //Prende un parametro numerico in ingresso e l'oggetto prodotto
+        //recuperando la lista di prodotti dalla Session["Carrello"] ne aggiorna le qta
+        //Se sum = 1 aggiunge una qta / altrimenti ne elimina una
+        //Se le qta del prodotto sono pari a zero lo elimina dal carrello
         [HttpGet]
         [Authorize(Roles = "Admin, User")]
         public ActionResult CartQta(int Sum , int idProdotto) 
@@ -201,6 +208,8 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Cart" , "Ordine");
         }
 
+
+        //Action che elimina un prodotto dal carrello indipendentemente dalle qta inserite
         [Authorize(Roles = "User")]
         public ActionResult RemoveFromCart(int idProdotto)
         {
@@ -211,7 +220,12 @@ namespace GestionePizzeria.Controllers
         }
 
 
-
+        //Metodo che invia l'ordine
+        //1)Recupera il carrello
+        //2)Per ogni oggetto * qta calcola il prezzo totale dell'ordine
+        //3)Crea un nuovo oggetto ordine
+        //4)Per ogni oggetto nel carrello crea un dettaglio ordine che lega all'id dell'ordine creato
+        //5)svuota il carrello e invia un feed all'user
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
         public ActionResult SendOrder(Ordine O)
@@ -262,6 +276,7 @@ namespace GestionePizzeria.Controllers
             return RedirectToAction("Cart", "Ordine");
         }
 
+        //Action che setta come evaso un ordine
         [Authorize(Roles = "Admin")]
         public ActionResult EvadiOrdine(int id) 
         {

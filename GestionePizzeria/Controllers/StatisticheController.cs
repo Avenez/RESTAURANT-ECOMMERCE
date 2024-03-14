@@ -18,7 +18,7 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-
+        //Metodo asincrono per il recupero degli ordini evasi nella data del giorno corrente
         public JsonResult TotEvasi() 
         {
             DateTime dataInizio = DateTime.Today;
@@ -31,7 +31,7 @@ namespace GestionePizzeria.Controllers
             return Json(TotOrdiniEvasi, JsonRequestBehavior.AllowGet);
         }
 
-
+        //Metodo asincrono per il recupero dell'incasso totale della giornata che si basas sulla somma delle cifre degli ordini EVASI
         public JsonResult TotIncasso()
         {
 

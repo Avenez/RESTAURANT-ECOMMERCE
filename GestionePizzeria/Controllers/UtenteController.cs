@@ -44,7 +44,7 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-        // POST: Utente/Create
+       //mAction per la creazione di un profilo che invia un feed all'user
         
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -83,7 +83,7 @@ namespace GestionePizzeria.Controllers
 
         // POST: Utente/Edit/5
         // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]

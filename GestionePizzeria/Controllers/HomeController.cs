@@ -44,6 +44,9 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
+
+        //Action per l'accesso al Backoffice
+        //Controlla la presenza di session di inserimento dei feed delle operazioni
         [Authorize(Roles = "Admin")]
         public ActionResult Backoffice()
         {

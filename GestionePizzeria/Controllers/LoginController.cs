@@ -64,6 +64,7 @@ namespace GestionePizzeria.Controllers
                 }
                 else
                 {
+                    //Controllo del feed utente relativo al controllo della presenza dell'utente sul db
                     TempData["Inserimento"] = true;
                     Session["Good"] = false;
                     Session["Messaggio"] = "Utente non registrato";
@@ -79,7 +80,8 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-        // LogOut con FormsAuthentication.SignOut();
+        // Operazione di logput che svuota le session
+
         public ActionResult Logout()
         {
             Session.Clear();

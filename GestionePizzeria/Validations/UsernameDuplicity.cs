@@ -9,7 +9,7 @@ namespace GestionePizzeria.Validations
 {
     public class UsernameDuplicity : ValidationAttribute
     {
-        
+        //controllo sullo username per evitare che si possa usarne uno già presente
         protected override ValidationResult IsValid(object Username, ValidationContext validationContext) 
         {
             System.Diagnostics.Debug.WriteLine("Username: " + Username.ToString());

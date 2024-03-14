@@ -64,8 +64,9 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
+
+        //Action per la creazione di un prodotto con l'aggiunta della possibilità di caricare immagini
         [Authorize(Roles = "Admin")]
-        // POST: Prodotto/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Prodotto prodotto, HttpPostedFileBase Foto)
@@ -110,6 +111,7 @@ namespace GestionePizzeria.Controllers
         }
 
         // POST: Prodotto/Edit/5
+        //action per la modifica di un prodotto con l'aggiunta della possibilità di caricare immagini
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -159,7 +161,7 @@ namespace GestionePizzeria.Controllers
             return View(prodotto);
         }
 
-        // POST: Prodotto/Delete/5
+        //action per l'eliminazione di un prodotto con l'aggiunta dell'eliminazione di tutti i dettagli prodotto relativi a quel prodotto (Una forzatura per sperimentare sulle FK)
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -186,6 +188,9 @@ namespace GestionePizzeria.Controllers
         }
 
         //---------Prodotti----------
+        //Action che restituisce la lista dei prodotti all'user in base all'orario della giornata 
+        //prima delle 18:00 è disponibile solo il menù pranzo dopo le 18:00 solo quello cena
+        //Questo va in base al marker posto sui prodotti
         [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public ActionResult ListaProdotti()
@@ -209,7 +214,10 @@ namespace GestionePizzeria.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin, User")]
+        //Action che  aggiunge un prodotto al carrello
+        //1) controlla se "Carrello" non sia null e nel caso la riempie
+        //2)controlla se il carrello già contiene il prodotto selezionato. Se "false" lo aggiunge, se "true" ne aggiunge una qta
+         [Authorize(Roles = "Admin, User")]
         public ActionResult AddToCart(int idProdotto)
         {
             System.Diagnostics.Debug.WriteLine("Id Prodotto: " + idProdotto);
